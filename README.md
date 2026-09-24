@@ -23,7 +23,7 @@ npm run build
 À la première installation uniquement, initialisez la base locale :
 
 ```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_dazzling_phil_sheldon.sql
+for f in drizzle/0*.sql; do node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file "$f"; done
 ```
 
 Puis lancez le CRM :
@@ -40,7 +40,7 @@ Ce projet nécessite son serveur et sa base D1 : il ne s’ouvre pas en double-c
 ## Contenu
 
 - `app/` : interface, styles et API.
-- `lib/crm.ts` : modèles et scénarios de démonstration.
+- `lib/` : données de démonstration (`seed.ts`), schémas de validation, rapports, recherche et géolocalisation.
 - `db/` et `drizzle/` : structure et migration de la base.
 - `public/` : logo, polices et licences.
 - `pnpm-lock.yaml` : versions des dépendances.
