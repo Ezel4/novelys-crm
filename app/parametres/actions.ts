@@ -125,7 +125,7 @@ export async function updateUser(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(users.id, data.id), eq(users.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateUser', e);
     return { error: 'Impossible d’enregistrer la fiche. Réessayez.' };

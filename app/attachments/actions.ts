@@ -30,7 +30,7 @@ export async function deleteAttachment(id: string, revision: number, accountId: 
   let changes = 0;
   try {
     const result = await db.delete(attachments).where(and(eq(attachments.id, id), eq(attachments.revision, revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('deleteAttachment', e);
     return { error: 'Suppression impossible. Réessayez.' };

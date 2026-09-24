@@ -39,7 +39,7 @@ export async function updateLeadStatus(id: string, revision: number, status: str
       .update(leads)
       .set({ status: parsed.data, revision: revision + 1, updatedAt: new Date() })
       .where(and(eq(leads.id, id), eq(leads.revision, revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateLeadStatus', e);
     return { error: 'Mise à jour impossible. Réessayez.' };
@@ -112,7 +112,7 @@ export async function convertLead(leadId: string): Promise<{ error: string } | {
       .set({ status: 'Converti', convertedAccountId: accountId, revision: lead.revision + 1, updatedAt: new Date() })
       .where(and(eq(leads.id, leadId), eq(leads.revision, lead.revision)));
 
-    if (!result.meta.changes) {
+    if (!result.count) {
       return { error: 'Ce lead a changé. Actualisez la page avant de réessayer.' };
     }
   } catch (e) {

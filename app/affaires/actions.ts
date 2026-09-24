@@ -52,7 +52,7 @@ export async function updateDeal(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(deals.id, data.id), eq(deals.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateDeal', e);
     return { error: 'Enregistrement impossible. Réessayez.' };
@@ -77,7 +77,7 @@ export async function updateDealStage(id: string, revision: number, stage: strin
       .update(deals)
       .set({ stage: parsed.data, revision: revision + 1, updatedAt: new Date() })
       .where(and(eq(deals.id, id), eq(deals.revision, revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateDealStage', e);
     return { error: 'Mise à jour impossible. Réessayez.' };

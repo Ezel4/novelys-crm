@@ -5,8 +5,13 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { GlobalSearch } from '@/components/global-search';
 import './globals.css';
 
+// Every page reads the CRM database, so render on each request instead of at build time.
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://novelys-crm.dentalhitec-6381.chatgpt.site'),
+  metadataBase: new URL(
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000'
+  ),
   title: 'NOVELYS — CRM Full Ace',
   description: 'L’espace commercial Full Ace : contacts, contexte et prochaines actions.',
   icons: { icon: '/favicon.svg' },

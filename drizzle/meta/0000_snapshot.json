@@ -1,32 +1,30 @@
 {
-  "version": "6",
-  "dialect": "sqlite",
-  "id": "db3a5973-5855-40b8-8b9a-b702ed715907",
+  "id": "e84febe3-315a-4091-9a06-c78182984dfe",
   "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "accounts": {
+    "novelys.accounts": {
       "name": "accounts",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "city": {
           "name": "city",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "sector": {
@@ -34,7 +32,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "family": {
@@ -42,7 +39,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "initials": {
@@ -50,7 +46,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "color": {
@@ -58,7 +53,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'blue'"
         },
         "summary": {
@@ -66,7 +60,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "orders": {
@@ -74,93 +67,212 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "revenue": {
           "name": "revenue",
-          "type": "real",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "last_order": {
           "name": "last_order",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "next": {
           "name": "next",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "due": {
           "name": "due",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lat": {
+          "name": "lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "lng": {
+          "name": "lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "health": {
+          "name": "health",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Bonne'"
+        },
+        "payment_terms": {
+          "name": "payment_terms",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'30 jours'"
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "campaigns": {
-      "name": "campaigns",
+    "novelys.attachments": {
+      "name": "attachments",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deal_id": {
+          "name": "deal_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "filename": {
+          "name": "filename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "attachments_account_id_accounts_id_fk": {
+          "name": "attachments_account_id_accounts_id_fk",
+          "tableFrom": "attachments",
+          "tableTo": "accounts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "attachments_deal_id_deals_id_fk": {
+          "name": "attachments_deal_id_deals_id_fk",
+          "tableFrom": "attachments",
+          "tableTo": "deals",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "deal_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.campaigns": {
+      "name": "campaigns",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "type": {
           "name": "type",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'Autre'"
         },
         "status": {
@@ -168,61 +280,53 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'Planifiée'"
         },
         "start_date": {
           "name": "start_date",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "end_date": {
           "name": "end_date",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "budget": {
           "name": "budget",
-          "type": "real",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "account_id": {
           "name": "account_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -231,6 +335,7 @@
           "name": "campaigns_account_id_accounts_id_fk",
           "tableFrom": "campaigns",
           "tableTo": "accounts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "account_id"
           ],
@@ -243,38 +348,37 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "contacts": {
+    "novelys.contacts": {
       "name": "contacts",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "account_id": {
           "name": "account_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "role": {
           "name": "role",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "email": {
@@ -282,7 +386,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "status": {
@@ -290,39 +393,82 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'À revérifier'"
         },
         "verified": {
           "name": "verified",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "preferred_channel": {
+          "name": "preferred_channel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'E-mail'"
+        },
+        "best_time": {
+          "name": "best_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "influence": {
+          "name": "influence",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Utilisateur'"
+        },
+        "relationship": {
+          "name": "relationship",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Cordiale'"
+        },
+        "personal_note": {
+          "name": "personal_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "birthday": {
+          "name": "birthday",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -331,6 +477,7 @@
           "name": "contacts_account_id_accounts_id_fk",
           "tableFrom": "contacts",
           "tableTo": "accounts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "account_id"
           ],
@@ -343,45 +490,43 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "deals": {
+    "novelys.deals": {
       "name": "deals",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "account_id": {
           "name": "account_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "contact_id": {
           "name": "contact_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "amount": {
           "name": "amount",
-          "type": "real",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "stage": {
@@ -389,7 +534,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'À qualifier'"
         },
         "decision_maker": {
@@ -397,47 +541,61 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "deadline": {
           "name": "deadline",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "logo": {
           "name": "logo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "probability": {
+          "name": "probability",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": false
+          "default": 50
+        },
+        "loss_reason": {
+          "name": "loss_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -446,6 +604,7 @@
           "name": "deals_account_id_accounts_id_fk",
           "tableFrom": "deals",
           "tableTo": "accounts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "account_id"
           ],
@@ -459,6 +618,7 @@
           "name": "deals_contact_id_contacts_id_fk",
           "tableFrom": "deals",
           "tableTo": "contacts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "contact_id"
           ],
@@ -471,112 +631,101 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "interactions": {
+    "novelys.interactions": {
       "name": "interactions",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "account_id": {
           "name": "account_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "contact_id": {
           "name": "contact_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "deal_id": {
           "name": "deal_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "lead_id": {
           "name": "lead_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "date": {
           "name": "date",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "type": {
           "name": "type",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "contact_name": {
           "name": "contact_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "result": {
           "name": "result",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "next": {
           "name": "next",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "due": {
           "name": "due",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -585,6 +734,7 @@
           "name": "interactions_account_id_accounts_id_fk",
           "tableFrom": "interactions",
           "tableTo": "accounts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "account_id"
           ],
@@ -598,6 +748,7 @@
           "name": "interactions_contact_id_contacts_id_fk",
           "tableFrom": "interactions",
           "tableTo": "contacts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "contact_id"
           ],
@@ -611,6 +762,7 @@
           "name": "interactions_deal_id_deals_id_fk",
           "tableFrom": "interactions",
           "tableTo": "deals",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "deal_id"
           ],
@@ -624,6 +776,7 @@
           "name": "interactions_lead_id_leads_id_fk",
           "tableFrom": "interactions",
           "tableTo": "leads",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "lead_id"
           ],
@@ -636,31 +789,31 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "leads": {
+    "novelys.leads": {
       "name": "leads",
+      "schema": "novelys",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "company": {
           "name": "company",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "email": {
@@ -668,7 +821,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "phone": {
@@ -676,7 +828,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "status": {
@@ -684,7 +835,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "'Nouveau'"
         },
         "source": {
@@ -692,46 +842,40 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": "''"
         },
         "campaign_id": {
           "name": "campaign_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "converted_account_id": {
           "name": "converted_account_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "revision": {
           "name": "revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -740,6 +884,7 @@
           "name": "leads_campaign_id_campaigns_id_fk",
           "tableFrom": "leads",
           "tableTo": "campaigns",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "campaign_id"
           ],
@@ -753,6 +898,7 @@
           "name": "leads_converted_account_id_accounts_id_fk",
           "tableFrom": "leads",
           "tableTo": "accounts",
+          "schemaTo": "novelys",
           "columnsFrom": [
             "converted_account_id"
           ],
@@ -765,17 +911,768 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.pick_lists": {
+      "name": "pick_lists",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "list": {
+          "name": "list",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.quote_items": {
+      "name": "quote_items",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "quote_id": {
+          "name": "quote_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "unit_price": {
+          "name": "unit_price",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "discount": {
+          "name": "discount",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quote_items_quote_id_quotes_id_fk": {
+          "name": "quote_items_quote_id_quotes_id_fk",
+          "tableFrom": "quote_items",
+          "tableTo": "quotes",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "quote_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.quotes": {
+      "name": "quotes",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "number": {
+          "name": "number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "deal_id": {
+          "name": "deal_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contact_id": {
+          "name": "contact_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Brouillon'"
+        },
+        "issue_date": {
+          "name": "issue_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valid_until": {
+          "name": "valid_until",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vat_rate": {
+          "name": "vat_rate",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 20
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quotes_account_id_accounts_id_fk": {
+          "name": "quotes_account_id_accounts_id_fk",
+          "tableFrom": "quotes",
+          "tableTo": "accounts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "quotes_deal_id_deals_id_fk": {
+          "name": "quotes_deal_id_deals_id_fk",
+          "tableFrom": "quotes",
+          "tableTo": "deals",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "deal_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "quotes_contact_id_contacts_id_fk": {
+          "name": "quotes_contact_id_contacts_id_fk",
+          "tableFrom": "quotes",
+          "tableTo": "contacts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "contact_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.settings": {
+      "name": "settings",
+      "schema": "novelys",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "section": {
+          "name": "section",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'general'"
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.tasks": {
+      "name": "tasks",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "due_date": {
+          "name": "due_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'À faire'"
+        },
+        "priority": {
+          "name": "priority",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Normale'"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deal_id": {
+          "name": "deal_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tasks_account_id_accounts_id_fk": {
+          "name": "tasks_account_id_accounts_id_fk",
+          "tableFrom": "tasks",
+          "tableTo": "accounts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "tasks_deal_id_deals_id_fk": {
+          "name": "tasks_deal_id_deals_id_fk",
+          "tableFrom": "tasks",
+          "tableTo": "deals",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "deal_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.users": {
+      "name": "users",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Commercial'"
+        },
+        "job_title": {
+          "name": "job_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "initials": {
+          "name": "initials",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'blue'"
+        },
+        "base_city": {
+          "name": "base_city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "territory": {
+          "name": "territory",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "strengths": {
+          "name": "strengths",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "working_hours": {
+          "name": "working_hours",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'9h – 18h'"
+        },
+        "availability": {
+          "name": "availability",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Disponible'"
+        },
+        "monthly_target": {
+          "name": "monthly_target",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "novelys.visits": {
+      "name": "visits",
+      "schema": "novelys",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_id": {
+          "name": "contact_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "lat": {
+          "name": "lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "lng": {
+          "name": "lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "date": {
+          "name": "date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "duration_min": {
+          "name": "duration_min",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 60
+        },
+        "purpose": {
+          "name": "purpose",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Relance'"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Planifiée'"
+        },
+        "distance_km": {
+          "name": "distance_km",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "visits_user_id_users_id_fk": {
+          "name": "visits_user_id_users_id_fk",
+          "tableFrom": "visits",
+          "tableTo": "users",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "visits_account_id_accounts_id_fk": {
+          "name": "visits_account_id_accounts_id_fk",
+          "tableFrom": "visits",
+          "tableTo": "accounts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "visits_contact_id_contacts_id_fk": {
+          "name": "visits_contact_id_contacts_id_fk",
+          "tableFrom": "visits",
+          "tableTo": "contacts",
+          "schemaTo": "novelys",
+          "columnsFrom": [
+            "contact_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
-  "views": {},
   "enums": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
+  "schemas": {
+    "novelys": "novelys"
   },
-  "internal": {
-    "indexes": {}
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
   }
 }

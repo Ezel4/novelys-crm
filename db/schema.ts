@@ -1,13 +1,15 @@
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
-import { sql } from 'drizzle-orm';
+import { pgSchema, text, integer, doublePrecision, boolean, timestamp } from 'drizzle-orm/pg-core';
+
+// Own schema so the CRM stays apart from other apps in the database and off Supabase's public API.
+export const crm = pgSchema('novelys');
 
 const timestamps = {
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 };
 
 // --- Comptes (ex-Client) ---
-export const accounts = sqliteTable('accounts', {
+export const accounts = crm.table('accounts', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   city: text('city').notNull().default(''),
@@ -17,13 +19,13 @@ export const accounts = sqliteTable('accounts', {
   color: text('color').notNull().default('blue'),
   summary: text('summary').notNull().default(''),
   orders: integer('orders').notNull().default(0),
-  revenue: real('revenue').notNull().default(0),
+  revenue: doublePrecision('revenue').notNull().default(0),
   lastOrder: text('last_order'),
   next: text('next').notNull().default(''),
   due: text('due'),
   ownerId: text('owner_id'),
-  lat: real('lat').notNull().default(0),
-  lng: real('lng').notNull().default(0),
+  lat: doublePrecision('lat').notNull().default(0),
+  lng: doublePrecision('lng').notNull().default(0),
   health: text('health', { enum: ['Bonne', 'À surveiller', 'À risque'] }).notNull().default('Bonne'),
   paymentTerms: text('payment_terms').notNull().default('30 jours'),
   revision: integer('revision').notNull().default(0),
@@ -31,7 +33,7 @@ export const accounts = sqliteTable('accounts', {
 });
 
 // --- Contacts ---
-export const contacts = sqliteTable('contacts', {
+export const contacts = crm.table('contacts', {
   id: text('id').primaryKey(),
   accountId: text('account_id').notNull().references(() => accounts.id, { onDelete: 'cascade' }),
   name: text('name').notNull(),
@@ -54,17 +56,17 @@ export const contacts = sqliteTable('contacts', {
 });
 
 // --- Affaires / Deals ---
-export const deals = sqliteTable('deals', {
+export const deals = crm.table('deals', {
   id: text('id').primaryKey(),
   accountId: text('account_id').notNull().references(() => accounts.id, { onDelete: 'cascade' }),
   contactId: text('contact_id').references(() => contacts.id, { onDelete: 'set null' }),
   name: text('name').notNull(),
-  amount: real('amount').notNull().default(0),
+  amount: doublePrecision('amount').notNull().default(0),
   stage: text('stage', { enum: ['À qualifier', 'Devis à préparer', 'Devis envoyé', 'Gagné', 'Perdu'] })
     .notNull().default('À qualifier'),
   decisionMaker: text('decision_maker').notNull().default(''),
   deadline: text('deadline'),
-  logo: integer('logo', { mode: 'boolean' }).notNull().default(false),
+  logo: boolean('logo').notNull().default(false),
   ownerId: text('owner_id'),
   probability: integer('probability').notNull().default(50),
   lossReason: text('loss_reason').notNull().default(''),
@@ -73,21 +75,21 @@ export const deals = sqliteTable('deals', {
 });
 
 // --- Campagnes ---
-export const campaigns = sqliteTable('campaigns', {
+export const campaigns = crm.table('campaigns', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   type: text('type', { enum: ['Email', 'Salon', 'Publicité', 'Réseaux sociaux', 'Autre'] }).notNull().default('Autre'),
   status: text('status', { enum: ['Planifiée', 'Active', 'Terminée', 'Annulée'] }).notNull().default('Planifiée'),
   startDate: text('start_date'),
   endDate: text('end_date'),
-  budget: real('budget').notNull().default(0),
+  budget: doublePrecision('budget').notNull().default(0),
   accountId: text('account_id').references(() => accounts.id, { onDelete: 'set null' }),
   revision: integer('revision').notNull().default(0),
   ...timestamps,
 });
 
 // --- Leads ---
-export const leads = sqliteTable('leads', {
+export const leads = crm.table('leads', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   company: text('company').notNull().default(''),
@@ -103,7 +105,7 @@ export const leads = sqliteTable('leads', {
 });
 
 // --- Interactions ---
-export const interactions = sqliteTable('interactions', {
+export const interactions = crm.table('interactions', {
   id: text('id').primaryKey(),
   accountId: text('account_id').references(() => accounts.id, { onDelete: 'cascade' }),
   contactId: text('contact_id').references(() => contacts.id, { onDelete: 'set null' }),
@@ -120,7 +122,7 @@ export const interactions = sqliteTable('interactions', {
 });
 
 // --- Tâches ---
-export const tasks = sqliteTable('tasks', {
+export const tasks = crm.table('tasks', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
   description: text('description').notNull().default(''),
@@ -135,7 +137,7 @@ export const tasks = sqliteTable('tasks', {
 });
 
 // --- Pièces jointes (liens) ---
-export const attachments = sqliteTable('attachments', {
+export const attachments = crm.table('attachments', {
   id: text('id').primaryKey(),
   accountId: text('account_id').references(() => accounts.id, { onDelete: 'cascade' }),
   dealId: text('deal_id').references(() => deals.id, { onDelete: 'cascade' }),
@@ -146,7 +148,7 @@ export const attachments = sqliteTable('attachments', {
 });
 
 // --- Devis ---
-export const quotes = sqliteTable('quotes', {
+export const quotes = crm.table('quotes', {
   id: text('id').primaryKey(),
   number: text('number').notNull(),
   accountId: text('account_id').notNull().references(() => accounts.id, { onDelete: 'cascade' }),
@@ -156,24 +158,24 @@ export const quotes = sqliteTable('quotes', {
     .notNull().default('Brouillon'),
   issueDate: text('issue_date').notNull(),
   validUntil: text('valid_until'),
-  vatRate: real('vat_rate').notNull().default(20),
+  vatRate: doublePrecision('vat_rate').notNull().default(20),
   notes: text('notes').notNull().default(''),
   revision: integer('revision').notNull().default(0),
   ...timestamps,
 });
 
-export const quoteItems = sqliteTable('quote_items', {
+export const quoteItems = crm.table('quote_items', {
   id: text('id').primaryKey(),
   quoteId: text('quote_id').notNull().references(() => quotes.id, { onDelete: 'cascade' }),
   position: integer('position').notNull().default(0),
   label: text('label').notNull(),
-  quantity: real('quantity').notNull().default(1),
-  unitPrice: real('unit_price').notNull().default(0),
-  discount: real('discount').notNull().default(0),
+  quantity: doublePrecision('quantity').notNull().default(1),
+  unitPrice: doublePrecision('unit_price').notNull().default(0),
+  discount: doublePrecision('discount').notNull().default(0),
 });
 
 // --- Utilisateurs / Équipe (couche humaine) ---
-export const users = sqliteTable('users', {
+export const users = crm.table('users', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   role: text('role', { enum: ['Commercial', 'ADV', 'Dirigeant'] }).notNull().default('Commercial'),
@@ -189,23 +191,23 @@ export const users = sqliteTable('users', {
   workingHours: text('working_hours').notNull().default('9h – 18h'),
   availability: text('availability', { enum: ['Disponible', 'En tournée', 'En rendez-vous', 'Congés'] })
     .notNull().default('Disponible'),
-  monthlyTarget: real('monthly_target').notNull().default(0),
+  monthlyTarget: doublePrecision('monthly_target').notNull().default(0),
   startedAt: text('started_at'),
-  active: integer('active', { mode: 'boolean' }).notNull().default(true),
+  active: boolean('active').notNull().default(true),
   revision: integer('revision').notNull().default(0),
   ...timestamps,
 });
 
 // --- Visites / Tournées commerciales ---
-export const visits = sqliteTable('visits', {
+export const visits = crm.table('visits', {
   id: text('id').primaryKey(),
   userId: text('user_id').references(() => users.id, { onDelete: 'set null' }),
   accountId: text('account_id').references(() => accounts.id, { onDelete: 'cascade' }),
   contactId: text('contact_id').references(() => contacts.id, { onDelete: 'set null' }),
   label: text('label').notNull().default(''),
   city: text('city').notNull().default(''),
-  lat: real('lat').notNull().default(0),
-  lng: real('lng').notNull().default(0),
+  lat: doublePrecision('lat').notNull().default(0),
+  lng: doublePrecision('lng').notNull().default(0),
   date: text('date').notNull(),
   startTime: text('start_time').notNull().default(''),
   durationMin: integer('duration_min').notNull().default(60),
@@ -213,25 +215,25 @@ export const visits = sqliteTable('visits', {
     .notNull().default('Relance'),
   status: text('status', { enum: ['Planifiée', 'Confirmée', 'Réalisée', 'Annulée'] })
     .notNull().default('Planifiée'),
-  distanceKm: real('distance_km').notNull().default(0),
+  distanceKm: doublePrecision('distance_km').notNull().default(0),
   notes: text('notes').notNull().default(''),
   revision: integer('revision').notNull().default(0),
   ...timestamps,
 });
 
 // --- Paramètres du CRM (clé/valeur typée par section) ---
-export const settings = sqliteTable('settings', {
+export const settings = crm.table('settings', {
   key: text('key').primaryKey(),
   section: text('section').notNull().default('general'),
   value: text('value').notNull().default(''),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
 // --- Valeurs de listes personnalisables (paramètres > listes) ---
-export const pickLists = sqliteTable('pick_lists', {
+export const pickLists = crm.table('pick_lists', {
   id: text('id').primaryKey(),
   list: text('list').notNull(),
   value: text('value').notNull(),
   position: integer('position').notNull().default(0),
-  active: integer('active', { mode: 'boolean' }).notNull().default(true),
+  active: boolean('active').notNull().default(true),
 });

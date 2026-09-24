@@ -103,7 +103,7 @@ export async function updateQuote(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(quotes.id, data.id), eq(quotes.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
 
     // Les lignes ne sont remplacées qu'une fois le verrou optimiste acquis.
     if (changes) {
@@ -144,7 +144,7 @@ export async function updateQuoteStatus(
       .update(quotes)
       .set({ status: parsed.data, revision: revision + 1, updatedAt: new Date() })
       .where(and(eq(quotes.id, id), eq(quotes.revision, revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateQuoteStatus', e);
     return { error: 'Mise à jour impossible. Réessayez.' };

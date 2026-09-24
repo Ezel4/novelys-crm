@@ -48,7 +48,7 @@ export async function updateCampaign(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(campaigns.id, data.id), eq(campaigns.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateCampaign', e);
     return { error: 'Enregistrement impossible. Réessayez.' };

@@ -46,7 +46,7 @@ export async function updateTask(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(tasks.id, data.id), eq(tasks.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateTask', e);
     return { error: 'Enregistrement impossible. Réessayez.' };
@@ -70,7 +70,7 @@ export async function updateTaskStatus(id: string, revision: number, status: str
       .update(tasks)
       .set({ status: parsed.data, revision: revision + 1, updatedAt: new Date() })
       .where(and(eq(tasks.id, id), eq(tasks.revision, revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateTaskStatus', e);
     return { error: 'Mise à jour impossible. Réessayez.' };

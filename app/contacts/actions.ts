@@ -55,7 +55,7 @@ export async function updateContact(input: unknown): Promise<ActionResult> {
         updatedAt: new Date(),
       })
       .where(and(eq(contacts.id, data.id), eq(contacts.revision, data.revision)));
-    changes = result.meta.changes;
+    changes = result.count;
   } catch (e) {
     console.error('updateContact', e);
     return { error: 'Enregistrement impossible. Réessayez.' };
