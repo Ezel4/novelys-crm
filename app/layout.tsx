@@ -1,4 +1,8 @@
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
+import { GlobalSearch } from '@/components/global-search';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,5 +24,18 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="fr"><body>{children}</body></html>;
+  return (
+    <html lang="fr">
+      <body>
+        <SidebarProvider>
+          <div className="app-shell flex min-h-screen w-full">
+            <AppSidebar />
+            <main className="min-w-0 flex-1">{children}</main>
+          </div>
+        </SidebarProvider>
+        <GlobalSearch />
+        <Toaster position="bottom-right" richColors />
+      </body>
+    </html>
+  );
 }
